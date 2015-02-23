@@ -1,9 +1,12 @@
 var React = require('react');
 //var HelloWorld = require('./HelloWorld.jsx');
-var BindSample = require('./BindSample.jsx');
-
+//var BindSample = require('./BindSample.jsx');
+var MapTile = require('./MapTile.jsx');
+var Square = require('./Square.jsx');
 React.render(
-    //<BindSample value1="hoge" value2="huga" />,
-    <BindSample url="sample.json" pollInterval={5000} />,
+    <div>
+      <MapTile />
+      <MapTile />
+    </div>,
     document.getElementById('example')
     );

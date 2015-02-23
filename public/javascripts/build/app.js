@@ -1,16 +1,19 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var React = require('react');
 //var HelloWorld = require('./HelloWorld.jsx');
-var BindSample = require('./BindSample.jsx');
-
+//var BindSample = require('./BindSample.jsx');
+var MapTile = require('./MapTile.jsx');
+var Square = require('./Square.jsx');
 React.render(
-    //<BindSample value1="hoge" value2="huga" />,
-    React.createElement(BindSample, {url: "sample.json", pollInterval: 5000}),
+    React.createElement("div", null, 
+      React.createElement(MapTile, null), 
+      React.createElement(MapTile, null)
+    ),
     document.getElementById('example')
     );
 
 
-},{"./BindSample.jsx":149,"react":148}],2:[function(require,module,exports){
+},{"./MapTile.jsx":149,"./Square.jsx":150,"react":148}],2:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -18298,33 +18301,143 @@ module.exports = warning;
 module.exports = require('./lib/React');
 
 },{"./lib/React":30}],149:[function(require,module,exports){
+/*
+ * Represents each tile of map.
+ */
 var React = require('react');
+var Square = require('./Square.jsx');
 
 module.exports = React.createClass({displayName: "exports",
   getInitialState: function() {
-    return {value1: 'test', value2: 'value'};
+    return {data: []};
   },
-  componentDidMount: function() {
-    this.loadFromServer();
-    setInterval(this.loadFromServer, this.props.pollInterval);
-  },
-  loadFromServer: function() {
-    $.ajax({
-      url: this.props.url,
-    dataType: 'json',
-    success: function(data) {
-      this.setState({value1: data["key"], value2: data["value"]});
-    }.bind(this),
-    error: function(xhr, status, err) {
-      console.error(this.props.url, status, erro.toString());
-    }.bind(this)
-    });
-  },
-  render: function() {
+
+  slice: function(arr, begin, last) {
+    var count = last - begin + 1;
+    var className = "pure-u-1-" + count;
     return (
-      React.createElement("div", null, 
-        React.createElement("p", null, this.props.value1), 
-        React.createElement("p", null, this.props.value2)
+      React.createElement("div", {className: className}, 
+      arr.slice(begin, last+1).map(function(item) {
+          return React.createElement(Square, {landType: item["type"], production: item["production"], trade: item["trade"]});
+      })
+      )
+      );
+  },
+
+  render: function() {
+    var arr = [
+      {"type":'desert', "production":1},
+      {"type":'water', "trade":1},
+      {"type":'desert', "production":1},
+      {"type":'desert', "production":1},
+      {"type":'desert', "production":1},
+      {"type":'desert', "production":1},
+      {"type":'desert', "production":1},
+      {"type":'desert', "production":1},
+      {"type":'desert', "production":1},
+      {"type":'desert', "production":1},
+      {"type":'desert', "production":1},
+      {"type":'desert', "production":1},
+      {"type":'desert', "production":1},
+      {"type":'desert', "production":1},
+      {"type":'desert', "production":1},
+      {"type":'desert', "production":1}
+        ];
+    return (
+      React.createElement("div", {className: "pure-g map"}, 
+        this.slice(arr, 0, 3), 
+        this.slice(arr, 4, 7), 
+        this.slice(arr, 8, 11), 
+        this.slice(arr, 12, 15)
+      )
+      );
+  },
+
+  renderOld: function() {
+    return (
+      React.createElement("div", {className: "pure-g map"}, 
+        React.createElement("div", {className: "pure-u-1-4"}, 
+          React.createElement(Square, {landType: "desert", trade: "1", resource: "絹"}), 
+          React.createElement(Square, {landType: "water", trade: "1"}), 
+          React.createElement(Square, {landType: "water", trade: "1"}), 
+          React.createElement(Square, {landType: "desert", trade: "1"})
+        ), 
+        React.createElement("div", {className: "pure-u-1-4"}, 
+          React.createElement(Square, {landType: "desert", trade: "1"}), 
+          React.createElement(Square, {landType: "mountain", trade: "1"}), 
+          React.createElement(Square, {landType: "desert", trade: "1"}), 
+          React.createElement(Square, {landType: "desert", trade: "1"})
+        ), 
+        React.createElement("div", {className: "pure-u-1-4"}, 
+          React.createElement(Square, {landType: "desert", trade: "1"}), 
+          React.createElement(Square, {landType: "mountain", trade: "1"}), 
+          React.createElement(Square, {landType: "desert", trade: "1"}), 
+          React.createElement(Square, {landType: "desert", trade: "1"})
+        ), 
+        React.createElement("div", {className: "pure-u-1-4"}, 
+          React.createElement(Square, {landType: "desert", trade: "1"}), 
+          React.createElement(Square, {landType: "mountain", trade: "1"}), 
+          React.createElement(Square, {landType: "desert", trade: "1"}), 
+          React.createElement(Square, {landType: "desert", trade: "1"})
+        )
+      )
+    );
+  }
+});
+
+
+},{"./Square.jsx":150,"react":148}],150:[function(require,module,exports){
+/*
+ * Each Cell
+ */
+var React = require('react');
+
+//var LAND_TYPE = {
+//  MOUNTAIN: 0,
+//  FOREST: 1,
+//  GRASSLAND: 2,
+//  DESERT: 3,
+//  WATER: 4
+//};
+
+module.exports = React.createClass({displayName: "exports",
+  getInitialState: function() {
+    return {data: []};
+  },
+
+  displayCulture: function() {
+    if (this.props.culture >= 1) {
+      return React.createElement("span", null, "文", this.props.culture);
+    }
+  },
+
+  displayTrade: function() {
+    if (this.props.trade >= 1) {
+      return React.createElement("span", null, "商", this.props.trade);
+    }
+  },
+
+  displayProduction: function() {
+    if (this.props.production >= 1) {
+      return React.createElement("span", null, "生", this.props.production);
+    }
+  },
+
+  displayResource: function() {
+    if (this.props.resource) {
+      return React.createElement("span", null, this.props.resource);
+    }
+  },
+
+  render: function() {
+    var cl = this.props.landType;
+    cl += ' square';
+    return (
+      React.createElement("div", {className: cl}, 
+        this.displayCulture(), 
+        this.displayTrade(), 
+        this.displayProduction(), 
+        this.displayResource()
       )
     );
   }

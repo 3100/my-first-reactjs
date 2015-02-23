@@ -2,7 +2,7 @@ var React = require('react');
 
 module.exports = React.createClass({
   getInitialState: function() {
-    return {value1: 'test', value2: 'value'};
+    return {data: []};
   },
   componentDidMount: function() {
     this.loadFromServer();
@@ -13,7 +13,8 @@ module.exports = React.createClass({
       url: this.props.url,
     dataType: 'json',
     success: function(data) {
-      this.setState({value1: data["key"], value2: data["value"]});
+      console.log("ok");
+      this.setState({data: data});
     }.bind(this),
     error: function(xhr, status, err) {
       console.error(this.props.url, status, erro.toString());
@@ -23,8 +24,9 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        <p>{this.props.value1}</p>
-        <p>{this.props.value2}</p>
+        {this.state.data.map(function(item) {
+          return <span key={item["key"]}><h3>{item["key"]}</h3><p>{item["value"]}</p></span>;
+        })}
       </div>
     );
   }
