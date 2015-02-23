@@ -3,7 +3,7 @@ var WorldMap = require('./WorldMap.jsx');
 
 var jsonPath = 'map.json';
 // TODO use
-var players = ['astec', 'america'];
+var players = ['astec', 'america', 'arab', 'england'];
 
 React.render(
     <div>
