@@ -1,19 +1,20 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var React = require('react');
-//var HelloWorld = require('./HelloWorld.jsx');
-//var BindSample = require('./BindSample.jsx');
-var MapTile = require('./MapTile.jsx');
-var Square = require('./Square.jsx');
+var WorldMap = require('./WorldMap.jsx');
+
+var jsonPath = 'map.json';
+// TODO use
+var players = ['astec', 'america'];
+
 React.render(
     React.createElement("div", null, 
-      React.createElement(MapTile, null), 
-      React.createElement(MapTile, null)
+      React.createElement(WorldMap, {jsonPath: jsonPath, players: players})
     ),
     document.getElementById('example')
     );
 
 
-},{"./MapTile.jsx":149,"./Square.jsx":150,"react":148}],2:[function(require,module,exports){
+},{"./WorldMap.jsx":151,"react":148}],2:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -18318,37 +18319,19 @@ module.exports = React.createClass({displayName: "exports",
     return (
       React.createElement("div", {className: className}, 
       arr.slice(begin, last+1).map(function(item) {
-          return React.createElement(Square, {landType: item["type"], production: item["production"], trade: item["trade"]});
+          return React.createElement(Square, {landType: item["type"], production: item["production"], trade: item["trade"], culture: item["culture"], resource: item["resource"]});
       })
       )
       );
   },
 
   render: function() {
-    var arr = [
-      {"type":'desert', "production":1},
-      {"type":'water', "trade":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1}
-        ];
     return (
       React.createElement("div", {className: "pure-g map"}, 
-        this.slice(arr, 0, 3), 
-        this.slice(arr, 4, 7), 
-        this.slice(arr, 8, 11), 
-        this.slice(arr, 12, 15)
+        this.slice(this.props.squares, 0, 3), 
+        this.slice(this.props.squares, 4, 7), 
+        this.slice(this.props.squares, 8, 11), 
+        this.slice(this.props.squares, 12, 15)
       )
       );
   },
@@ -18444,4 +18427,46 @@ module.exports = React.createClass({displayName: "exports",
 });
 
 
-},{"react":148}]},{},[1]);
+},{"react":148}],151:[function(require,module,exports){
+var React = require('react');
+var MapTile = require('./MapTile.jsx');
+
+
+module.exports = React.createClass({displayName: "exports",
+  getInitialState: function() {
+    return {data: []};
+  },
+
+  componentDidMount: function() {
+    this.loadFromServer();
+  },
+
+  loadFromServer: function() {
+    $.ajax({
+      url: this.props.jsonPath,
+      dataType: 'json',
+      success: function(data) {
+        console.log("ok");
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.jsonPath, status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  render: function() {
+    return (
+      React.createElement("div", null, 
+        this.state.data.map(function(item){
+          return React.createElement(MapTile, {squares: item["map"]});
+        })
+      )
+    );
+  }
+});
+
+
+
+
+},{"./MapTile.jsx":149,"react":148}]},{},[1]);

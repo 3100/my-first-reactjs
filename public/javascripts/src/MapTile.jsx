@@ -15,37 +15,19 @@ module.exports = React.createClass({
     return (
       <div className={className}>
       {arr.slice(begin, last+1).map(function(item) {
-          return <Square landType={item["type"]} production={item["production"]} trade={item["trade"]} />;
+          return <Square landType={item["type"]} production={item["production"]} trade={item["trade"]} culture={item["culture"]} resource={item["resource"]} />;
       })}
       </div>
       );
   },
 
   render: function() {
-    var arr = [
-      {"type":'desert', "production":1},
-      {"type":'water', "trade":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1},
-      {"type":'desert', "production":1}
-        ];
     return (
       <div className="pure-g map">
-        {this.slice(arr, 0, 3)}
-        {this.slice(arr, 4, 7)}
-        {this.slice(arr, 8, 11)}
-        {this.slice(arr, 12, 15)}
+        {this.slice(this.props.squares, 0, 3)}
+        {this.slice(this.props.squares, 4, 7)}
+        {this.slice(this.props.squares, 8, 11)}
+        {this.slice(this.props.squares, 12, 15)}
       </div>
       );
   },

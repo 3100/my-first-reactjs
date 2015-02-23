@@ -1,12 +1,13 @@
 var React = require('react');
-//var HelloWorld = require('./HelloWorld.jsx');
-//var BindSample = require('./BindSample.jsx');
-var MapTile = require('./MapTile.jsx');
-var Square = require('./Square.jsx');
+var WorldMap = require('./WorldMap.jsx');
+
+var jsonPath = 'map.json';
+// TODO use
+var players = ['astec', 'america'];
+
 React.render(
     <div>
-      <MapTile />
-      <MapTile />
+      <WorldMap jsonPath={jsonPath} players={players} />
     </div>,
     document.getElementById('example')
     );
