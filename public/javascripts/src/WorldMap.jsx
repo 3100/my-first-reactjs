@@ -17,10 +17,7 @@ module.exports = React.createClass({
       if (res.error) {
         console.error(this.props.jsonPath, res.status, res.error.toString());
       } else {
-        console.log("ok");
         this.setState({data: this.pickPlayers(res.body)});
-        console.log(this.state.data);
-        //this.setState({data: res.body});
       }
     }.bind(this));
   },

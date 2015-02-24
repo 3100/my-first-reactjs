@@ -13,19 +13,24 @@ var shuffle = function(a) {
   return a;
 };
 
-var allPlayers = ['aztec', 'america', 'arab', 'england', 'france', 'mongolia', 'roma', 'russia','spain', 'china', 'germany', 'japan', 'india', 'greece', 'egypt', 'zulu'];
+var allPlayers = [
+  'aztec', 'america', 'arab', 'england',
+  'france', 'mongolia', 'roma', 'russia',
+  'spain', 'china', 'germany', 'japan',
+  'india', 'greece', 'egypt', 'zulu'
+];
 
 var players = shuffle(allPlayers).slice(0, 4);
 console.log(players);
 
 React.render(
-    <div>
+  <div>
     <ul>
-    {players.map(function(p) {
-                               return <li>{p}</li>;
-                             })}
+      {players.map(function(p) {
+        return <li>{p}</li>;
+      })}
     </ul>
     <WorldMap jsonPath={jsonPath} players={players} />
-    </div>,
-    document.getElementById('example')
-    );
+  </div>,
+  document.getElementById('example')
+);

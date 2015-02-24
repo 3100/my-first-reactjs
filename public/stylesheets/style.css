@@ -47,6 +47,7 @@ a {
 
 .forest {
   background-color: green;
+  color: white;
 }
 
 .grassland {
@@ -55,6 +56,10 @@ a {
 
 .water {
   background-color: lightblue;
+}
+
+.resource {
+  margin-right: auto;
 }
 
 .fog {
