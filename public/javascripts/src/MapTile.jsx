@@ -8,7 +8,13 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {data: []};
   },
-
+  componentDidMount: function() {
+    this.setState({opened: this.props.opened});
+  },
+  handleClick: function(event) {
+    console.log("MapTile::Clicked");
+    this.setState({opened: "true"});
+  },
   slice: function(arr, begin, last) {
     var count = last - begin + 1;
     var className = "pure-u-1-" + count;
@@ -20,46 +26,20 @@ module.exports = React.createClass({
       </div>
       );
   },
-
   render: function() {
-    return (
-      <div className="pure-g map">
-        {this.slice(this.props.squares, 0, 3)}
-        {this.slice(this.props.squares, 4, 7)}
-        {this.slice(this.props.squares, 8, 11)}
-        {this.slice(this.props.squares, 12, 15)}
-      </div>
+    var opened = this.state.opened === "true";
+    var className = opened ? "pure-g map" : "map fog";
+    if (opened) {
+      return (
+        <div className = {className}>
+          {this.slice(this.props.squares, 0, 3)}
+          {this.slice(this.props.squares, 4, 7)}
+          {this.slice(this.props.squares, 8, 11)}
+          {this.slice(this.props.squares, 12, 15)}
+        </div>
       );
-  },
-
-  renderOld: function() {
-    return (
-      <div className="pure-g map">
-        <div className="pure-u-1-4">
-          <Square landType="desert" trade="1" resource="絹" />
-          <Square landType="water" trade="1" />
-          <Square landType="water" trade="1" />
-          <Square landType="desert" trade="1" />
-        </div>
-        <div className="pure-u-1-4">
-          <Square landType="desert" trade="1" />
-          <Square landType="mountain" trade="1" />
-          <Square landType="desert" trade="1" />
-          <Square landType="desert" trade="1" />
-        </div>
-        <div className="pure-u-1-4">
-          <Square landType="desert" trade="1" />
-          <Square landType="mountain" trade="1" />
-          <Square landType="desert" trade="1" />
-          <Square landType="desert" trade="1" />
-        </div>
-        <div className="pure-u-1-4">
-          <Square landType="desert" trade="1" />
-          <Square landType="mountain" trade="1" />
-          <Square landType="desert" trade="1" />
-          <Square landType="desert" trade="1" />
-        </div>
-      </div>
-    );
+    } else {
+      return <div className={className} onClick={this.handleClick} />;
+    }
   }
 });
