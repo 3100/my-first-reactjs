@@ -11,7 +11,24 @@ a {
   width: 200px;
   height: 200px;
   padding: 0px;
-  border: 1px solid gray;
+  border: solid 1px white;
+}
+
+/* for showing the orientation of a map tile */
+.south {
+  border-bottom: solid 1px black;
+}
+
+.north {
+  border-top: solid 1px black;
+}
+
+.east {
+  border-right: solid 1px black;
+}
+
+.west {
+  border-left: solid 1px black;
 }
 
 .square {
